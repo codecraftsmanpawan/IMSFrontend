@@ -112,7 +112,7 @@ const BrandModels = () => {
       const token = localStorage.getItem('Dealertoken');
       if (!token) throw new Error('No token found');
 
-      await axios.put(`http://localhost:5000/api/dealer/brands/${selectedBrand}/models/${editingModel._id}`, {
+      await axios.put(`${config.BASE_URL}/api/dealer/brands/${selectedBrand}/models/${editingModel._id}`, {
         name: editModelName,
         price: parseFloat(editModelPrice)
       }, {
@@ -145,7 +145,7 @@ const BrandModels = () => {
       const token = localStorage.getItem('Dealertoken');
       if (!token) throw new Error('No token found');
 
-      await axios.delete(`http://localhost:5000/api/dealer/models/${modelToDelete}`, {
+      await axios.delete(`${config.BASE_URL}/api/dealer/models/${modelToDelete}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 

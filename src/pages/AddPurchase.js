@@ -54,7 +54,7 @@ const AddPurchase = () => {
   // Fetch models based on selected brand
   try {
     const token = localStorage.getItem('Dealertoken');
-    const response = await axios.get(`http://localhost:5000/api/dealer/brands/${selectedBrand}/models`, {
+    const response = await axios.get(`${config.BASE_URL}/api/dealer/brands/${selectedBrand}/models`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     
@@ -87,7 +87,7 @@ const AddPurchase = () => {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/api/dealer/stock',
+      url: `${config.BASE_URL}/api/dealer/stock`,
       headers: { 
         'Content-Type': 'application/json', 
         'Authorization': `Bearer ${token}`
