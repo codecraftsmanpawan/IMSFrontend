@@ -13,25 +13,23 @@ const BrandSelect = () => {
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState('');
   const [stockData, setStockData] = useState([]);
-  const navigate = useNavigate();  // Initialize useNavigate
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('Dealertoken');
-
     const fetchBrands = async () => {
-      try {
-        const config = {
-          method: 'get',
-          url: `${config.BASE_URL}/api/dealer/brands`,
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        };
+      const token = localStorage.getItem('Dealertoken');
+      setLoading(true);
 
-        const response = await axios.request(config);
+      try {
+        const response = await axios.get(`${config.BASE_URL}/api/dealer/brands`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
         setBrands(response.data);
       } catch (error) {
         console.error('Error fetching brands:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -41,22 +39,18 @@ const BrandSelect = () => {
   const handleBrandChange = async (event) => {
     const brandId = event.target.value;
     setSelectedBrand(brandId);
+    setLoading(true);
 
-    // Fetch stock data for the selected brand
     const token = localStorage.getItem('Dealertoken');
     try {
-      const config = {
-        method: 'get',
-        url: `${config.BASE_URL}/api/dealer/stock/bybrand/?brandId=${brandId}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      };
-
-      const response = await axios.request(config);
+      const response = await axios.get(`${config.BASE_URL}/api/dealer/stock/bybrand/?brandId=${brandId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
       setStockData(response.data);
     } catch (error) {
       console.error('Error fetching stock data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,16 +69,16 @@ const BrandSelect = () => {
         index + 1,
         stock.modelName,
         stock.totalQuantity,
-        `${stock.price}`,
-        `${stock.totalAmount}`,
+        `₹${stock.price}`,
+        `₹${stock.totalAmount}`,
       ]),
+      margin: { top: 20 },
     });
     doc.save('StockData.pdf');
   };
 
-  // Function to handle row click and navigate
   const handleRowClick = (brandId, modelId) => {
-    navigate(`/details/${brandId}/${modelId}`); 
+    navigate(`/details/${brandId}/${modelId}`);
   };
 
   return (
@@ -106,8 +100,14 @@ const BrandSelect = () => {
           ))}
         </select>
 
-        {/* Display stock data after selecting a brand */}
-        {stockData.length > 0 && (
+        {/* Centered Loading Spinner */}
+        {loading && (
+          <div className="flex items-center justify-center mt-16">
+            <div className="w-16 h-16 mt-16 border-4 border-teal-500 border-t-transparent border-solid rounded-full animate-spin"></div>
+          </div>
+        )}
+
+        {!loading && stockData.length > 0 && (
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Stock Data</h2>
             <div className="flex justify-end mb-4">
@@ -152,7 +152,7 @@ const BrandSelect = () => {
                     <tr
                       key={index}
                       className="hover:bg-gray-100 transition-colors cursor-pointer"
-                      onClick={() => handleRowClick(selectedBrand, stock.modelId)} 
+                      onClick={() => handleRowClick(selectedBrand, stock.modelId)}
                     >
                       <td className="px-4 py-2 border-b border-gray-200 text-base text-gray-700">
                         {index + 1}
@@ -174,6 +174,13 @@ const BrandSelect = () => {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* No Data Available Message */}
+        {!loading && stockData.length === 0 && selectedBrand && (
+          <div className="mt-8 text-center text-gray-600">
+            <p>No stock data available for the selected brand.</p>
           </div>
         )}
       </div>

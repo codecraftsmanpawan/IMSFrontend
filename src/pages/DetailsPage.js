@@ -164,7 +164,9 @@ const StockTable = () => {
     doc.save('stock_data.pdf');
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
+  if (loading) return   <div className="flex items-center justify-center h-screen">
+        <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent border-solid rounded-full animate-spin"></div>
+      </div>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
   if (noData) return <p className="text-center text-yellow-500">No data available.</p>;
 
@@ -244,7 +246,7 @@ const StockTable = () => {
                     <th className="p-3 border-b">Amount</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='text-center'>
                   {item.stockHistory.map((history, historyIndex) => (
                     <tr key={historyIndex}>
                       <td className="p-3 border-b">{historyIndex + 1}</td>

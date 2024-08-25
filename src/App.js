@@ -13,6 +13,7 @@ import AddCategory from './pages/AddCategory';
 import EditBrand from './pages/ViewBrand';
 import EditCategory from './pages/ViewCategory';
 import ViewPerformance from './pages/ViewPerformance';
+import OverAllPerformance from './pages/OverAllPerformance';
 import ChangePassword from './pages/ChangePassword';
 import DetailsPage from './pages/DetailsPage';
 import AdminLogin from './admin/AdminLogin';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/view-brand" element={<EditBrand />} />
           <Route path="/view-category" element={<EditCategory />} />
           <Route path="/view-performance" element={<ViewPerformance />} />
+           <Route path="/overall-performance" element={<OverAllPerformance />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/details/:brandId/:modelId" element={<DetailsPage />} />
           {/* Admin Routes */}

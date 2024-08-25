@@ -10,6 +10,7 @@ const settingsOptions = [
   { Icon: PencilIcon, text: 'View Brand', path: '/view-brand' },
   { Icon: PencilIcon, text: 'View Category', path: '/view-category' },
   { Icon: ChartBarIcon, text: 'View Performance', path: '/view-performance' },
+  { Icon: ChartBarIcon, text: 'Overall Performance', path: '/overall-performance' },
   { Icon: LockClosedIcon, text: 'Change Password', path: '/change-password' },
   { Icon: ArrowLeftOnRectangleIcon, text: 'Log Out', path: '/logout', isLogout: true }
 ];

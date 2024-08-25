@@ -1,6 +1,6 @@
 // src/config.js
 const config = {
-  BASE_URL: 'https://imsbackend-1.onrender.com',
+  BASE_URL: 'http://localhost:5000',
   
 };
 
